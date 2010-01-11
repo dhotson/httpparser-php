@@ -1,0 +1,34 @@
+=== Http Parser extension for PHP
+A PHP extension for the C http parser from Ruby's Mongrel web server.
+
+=== Installation
+
+To install, you'll need an environment set up to compile PHP extensions.
+On Ubuntu, I think you'll need to install the php5-dev package.
+
+cd ext
+phpize
+./configure
+make
+sudo make install
+
+Also add the following to your php.ini file:
+
+extension=httpparser.so
+
+=== Usage
+
+$parser = new HttpParser();
+$parser->execute("GET http://example.com/ HTTP/1.1\r\nHost: example.com\r\n\r\n", 0);
+var_dump($parser->getEnvironment());
+
+.. or see simple_server.php for a better example.
+
+
+=== Credits
+
+The http parser is from Mongrel http://mongrel.rubyforge.org by Zed Shaw.
+Mongrel Web Server (Mongrel) is copyrighted free software by Zed A. Shaw
+<zedshaw at zedshaw dot com> You can redistribute it and/or modify it under
+either the terms of the GPL.
+
