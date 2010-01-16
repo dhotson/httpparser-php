@@ -141,15 +141,20 @@ PHP_METHOD(HttpParser, execute)
 {
 	char *data;
 	int data_len;
-	long nparsed = 0;
+	long offset = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s|l", &data, &data_len, &nparsed) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s|l", &data, &data_len, &offset) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	if (offset < 0) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "negative offsets are not allowed");
 		RETURN_NULL();
 	}
 
 	http_parser_object *obj = (http_parser_object *)zend_object_store_get_object(getThis() TSRMLS_CC);
 
-	http_parser_execute(obj->hp, data, data_len, nparsed);
+	http_parser_execute(obj->hp, data, data_len, offset);
 
 	RETURN_LONG(http_parser_nread(obj->hp));
 }

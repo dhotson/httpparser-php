@@ -1,5 +1,5 @@
 --TEST--
-Simple HTTP-request
+Simple HTTP-request with Offset
 --SKIPIF--
 <?php if (!extension_loaded("httpparser")) print "skip"; ?>
 --FILE--
@@ -9,9 +9,12 @@ $parser = new HttpParser();
 $nparsed = $parser->execute("testGET / HTTP/1.1\r\nHost: example.com\r\n\r\n", 4);
 var_dump($parser->getEnvironment());
 
+$parser = new HttpParser();
+$nparsed = $parser->execute("testGET / HTTP/1.1\r\nHost: example.com\r\n\r\n", -4);
+var_dump($parser->getEnvironment());
 ?>
 ==DONE==
---EXPECT--
+--EXPECTF--
 array(6) {
   ["REQUEST_METHOD"]=>
   string(3) "GET"
@@ -25,5 +28,9 @@ array(6) {
   string(11) "example.com"
   ["REQUEST_BODY"]=>
   string(0) ""
+}
+
+Warning: HttpParser::execute(): negative offsets are not allowed in %s on line %d
+array(0) {
 }
 ==DONE==
