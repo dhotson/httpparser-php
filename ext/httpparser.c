@@ -130,9 +130,8 @@ PHP_METHOD(HttpParser, execute)
 	int data_len;
 	long nparsed;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sl", &data, &data_len, &nparsed) == FAILURE)
-	{
-			RETURN_NULL();
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sl", &data, &data_len, &nparsed) == FAILURE) {
+		RETURN_NULL();
 	}
 
 	http_parser_object *obj = (http_parser_object *)zend_object_store_get_object(getThis() TSRMLS_CC);
@@ -146,28 +145,22 @@ PHP_METHOD(HttpParser, hasError)
 {
 	http_parser_object *obj = (http_parser_object *)zend_object_store_get_object(getThis() TSRMLS_CC);
 
-	if (http_parser_has_error(obj->hp))
-	{
-			RETURN_TRUE;
+	if (http_parser_has_error(obj->hp)) {
+		RETURN_TRUE;
 	}
-	else
-	{
-			RETURN_FALSE;
-	}
+
+	RETURN_FALSE;
 }
 
 PHP_METHOD(HttpParser, isFinished)
 {
 	http_parser_object *obj = (http_parser_object *)zend_object_store_get_object(getThis() TSRMLS_CC);
 
-	if (http_parser_is_finished(obj->hp))
-	{
-			RETURN_TRUE;
+	if (http_parser_is_finished(obj->hp)) {
+		RETURN_TRUE;
 	}
-	else
-	{
-			RETURN_FALSE;
-	}
+
+	RETURN_FALSE;
 }
 
 PHP_METHOD(HttpParser, getEnvironment)
@@ -179,10 +172,10 @@ PHP_METHOD(HttpParser, getEnvironment)
 
 
 function_entry http_parser_methods[] = {
-	PHP_ME(HttpParser, __construct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-	PHP_ME(HttpParser, execute, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(HttpParser, hasError, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(HttpParser, isFinished, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(HttpParser, __construct,    NULL, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+	PHP_ME(HttpParser, execute,        NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(HttpParser, hasError,       NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(HttpParser, isFinished,     NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(HttpParser, getEnvironment, NULL, ZEND_ACC_PUBLIC)
 
 	{NULL, NULL, NULL}
