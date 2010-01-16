@@ -124,6 +124,14 @@ PHP_METHOD(HttpParser, __construct)
 	obj->hp->data = obj->env;
 }
 
+PHP_METHOD(HttpParser, __destruct)
+{
+	zval *object = getThis();
+	http_parser_object *obj = (http_parser_object *)zend_object_store_get_object(object TSRMLS_CC);
+
+	zval_ptr_dtor(&obj->env);
+}
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_httpparser_execute, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
 	ZEND_ARG_INFO(0, http_string)
 	ZEND_ARG_INFO(0, offset)
@@ -178,6 +186,7 @@ PHP_METHOD(HttpParser, getEnvironment)
 
 function_entry http_parser_methods[] = {
 	PHP_ME(HttpParser, __construct,    NULL,                       ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+	PHP_ME(HttpParser, __destruct,     NULL,                       ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
 	PHP_ME(HttpParser, execute,        arginfo_httpparser_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(HttpParser, hasError,       NULL,                       ZEND_ACC_PUBLIC)
 	PHP_ME(HttpParser, isFinished,     NULL,                       ZEND_ACC_PUBLIC)
