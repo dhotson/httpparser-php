@@ -32,3 +32,5 @@ Mongrel Web Server (Mongrel) is copyrighted free software by Zed A. Shaw
 <zedshaw at zedshaw dot com> You can redistribute it and/or modify it under
 either the terms of the GPL.
 
+Also, a big thank you to Alexey Zakhlestin for doing some code review and
+cleaning up this PHP extension.
