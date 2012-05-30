@@ -32,8 +32,7 @@ zend_object_value http_parser_create_handler(zend_class_entry *type TSRMLS_DC)
 
 	ALLOC_HASHTABLE(obj->std.properties);
 	zend_hash_init(obj->std.properties, 0, NULL, ZVAL_PTR_DTOR, 0);
-	zend_hash_copy(obj->std.properties, &type->default_properties,
-		(copy_ctor_func_t)zval_add_ref, (void *)&tmp, sizeof(zval *));
+	object_properties_init(&(obj->std), type);
 
 	retval.handle = zend_objects_store_put(obj, NULL,
 		http_parser_free_storage, NULL TSRMLS_CC);
@@ -189,7 +188,7 @@ PHP_METHOD(HttpParser, getEnvironment)
 }
 
 
-function_entry http_parser_methods[] = {
+zend_function_entry http_parser_methods[] = {
 	PHP_ME(HttpParser, __construct,    NULL,                       ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 	PHP_ME(HttpParser, __destruct,     NULL,                       ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
 	PHP_ME(HttpParser, execute,        arginfo_httpparser_execute, ZEND_ACC_PUBLIC)
